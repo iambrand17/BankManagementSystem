@@ -10,6 +10,8 @@ public class signup2 extends JFrame implements ActionListener {
     String formon;
     JRadioButton r1,r2,e1,e2;
 
+    JComboBox comboBox1;
+
     JButton next;
 
     signup2(String first){
