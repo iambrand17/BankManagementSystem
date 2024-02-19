@@ -5,7 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class signup2 extends JFrame implements ActionListener {
-    JComboBox combobox,comboBox2,comboBox3,comboBox4;
+    JComboBox combobox,comboBox2,comboBox3,comboBox4,comboBox5;
     JTextField panNO,addharNo;
     String formon;
     JRadioButton r1,r2,e1,e2;
@@ -14,7 +14,7 @@ public class signup2 extends JFrame implements ActionListener {
 
     JButton next;
 
-    signup2(String first){
+    signup2(String formon){
 
         super("Application form");
 
@@ -102,11 +102,11 @@ public class signup2 extends JFrame implements ActionListener {
         add(l7);
 
         String occupation []={"salerid","self-employe","Bussnes","Student","Retaired","other"};
-        comboBox4=new JComboBox<>(Education);
-        comboBox4.setBackground(new Color(252,208,76));
-        comboBox4.setFont(new Font("Railway",Font.BOLD,14));
-        comboBox4.setBounds(350,320,320,30);
-        add(comboBox4);
+        comboBox5=new JComboBox<>(occupation);
+        comboBox5.setBackground(new Color(252,208,76));
+        comboBox5.setFont(new Font("Railway",Font.BOLD,14));
+        comboBox5.setBounds(350,320,320,30);
+        add(comboBox5);
 
         JLabel l8=new JLabel("PanNo");
         l8.setFont(new Font("Railway",Font.BOLD,18));
@@ -147,7 +147,12 @@ public class signup2 extends JFrame implements ActionListener {
         r2.setBounds(460,490,300,30);
         add(r2);
 
-//////////
+        ButtonGroup group=new ButtonGroup();
+        group.add(r1);
+        group.add(r2);
+
+
+
         JLabel l11=new JLabel("Exicting account");
         l11.setFont(new Font("Railway",Font.BOLD,18));
         l11.setBounds(100,540,100,30);
@@ -165,6 +170,11 @@ public class signup2 extends JFrame implements ActionListener {
         e2.setBounds(460,540, 300,30);
         add(e2);
 
+        ButtonGroup group1=new ButtonGroup();
+        group.add(e1);
+        group.add(e2);
+
+
 
 
         next=new JButton("Next");
@@ -174,24 +184,6 @@ public class signup2 extends JFrame implements ActionListener {
         next.setBounds(570,640,100,30);
         next.addActionListener(this);
         add(next);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         setLayout(null);
         setSize(850,750);
@@ -203,6 +195,67 @@ public class signup2 extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+
+        String rel= (String) combobox.getSelectedItem();
+        String cat=(String) comboBox2.getSelectedItem();
+        String inc=(String) comboBox3.getSelectedItem();
+        String edu=(String) comboBox4.getSelectedItem();
+        String occ=(String) comboBox5.getSelectedItem();
+
+
+        String pan=panNO.getText();
+        String addhar=addharNo.getText();
+
+
+        String citizen="";
+        if ((r1.isSelected())){
+            citizen="yes";
+        }
+        else if (r2.isSelected()){
+            citizen="no";
+        }
+
+        String eaccount=" ";
+
+        if((e1.isSelected())){
+            eaccount="yes";
+
+        }else if(e2.isSelected()){
+            eaccount="No";
+        }
+//           String citizen="";
+//        if (r1.isSelected()){
+//            citizen="yes";
+//        } else if (r2.isSelected()) {
+//            citizen="No";
+//
+//        }
+//
+//        String eaccount=" ";
+//        if (e1.isSelected()){
+//            eaccount="yes";
+//        } else if (e2.isSelected()) {
+//            eaccount="No";
+//
+//        }
+
+
+        try {
+            if (panNO.getText().equals(" ")||addharNo.getText().equals(" ")){
+            JOptionPane.showMessageDialog(null,"Fill all the fileds");
+            }else {
+                con c1=new con();
+                String q="insert into bankSystem.signuptow values('"+formon+"','"+rel+"','"+cat+"','"+inc+"','"+edu+"','"+occ+"','"+pan+"','"+addhar+"','"+citizen+"','" +eaccount+"')";
+                c1.statement.executeUpdate(q);
+                new signup3(formon);
+                setVisible(false);
+            }
+
+        }catch (Exception E){
+            E.printStackTrace();
+        }
+
+
 
     }
 

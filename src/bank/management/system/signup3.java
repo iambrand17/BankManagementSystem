@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Random;
 
 public class signup3  extends JFrame implements ActionListener {
 
@@ -13,10 +14,13 @@ public class signup3  extends JFrame implements ActionListener {
 
     JButton s,c;
 
+    String formno;
 
 
 
-    signup3(){
+
+    signup3( String formno){
+        this.formno=formno;
         ImageIcon i1=new ImageIcon(ClassLoader.getSystemResource("icon/bank.png"));
         Image i2=i1.getImage().getScaledInstance(100,100, Image.SCALE_DEFAULT);
         ImageIcon i3=new ImageIcon(i2);
@@ -181,6 +185,7 @@ public class signup3  extends JFrame implements ActionListener {
         s.setBackground(Color.WHITE);
         s.setForeground(Color.BLACK);
         s.setBounds(250,720,100,30);
+        s.addActionListener(this);
         add(s);
 
 
@@ -189,39 +194,8 @@ public class signup3  extends JFrame implements ActionListener {
         c.setBackground(Color.WHITE);
         c.setForeground(Color.BLACK);
         c.setBounds(420,720,100,30);
+        c.addActionListener(this);
         add(c);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         setLayout(null);
         setSize(850,800);
@@ -235,10 +209,73 @@ public class signup3  extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
+        String atype=null;
+        if (r1.isSelected()){
+            atype="Saving account";
+        } else if (r2.isSelected()) {
+            atype="Fix deposte";
+            
+        } else if (r3.isSelected()) {
+            atype="Current Account";
+            
+        } else if (r4.isSelected()) {
+            atype="Recurring Deposite account";
+
+        }
+        Random ran=new Random();
+        long first7 =(ran.nextLong()%900000000L)+ 14099630000000L;
+        String cardno=" "+Math.abs(first7);
+
+        long first3=(ran.nextLong()%900000L)+1000L;
+
+        String pin=" "+Math.abs(first3);
+
+        String fac=" ";
+        if(c1.isSelected()){
+            fac= fac+"ATM CARD ";
+        } else if (c2.isSelected()) {
+            fac=fac+"INTERNATE BANKING";
+
+        } else if (c3.isSelected()) {
+            fac=fac+"MOBILE BANKING";
+
+        }else if (c4.isSelected()){
+            fac=fac+"EMAIL Alters";
+        } else if (c5.isSelected()) {
+            fac=fac+"Cheque Book";
+
+        } else if (c6.isSelected()) {
+            fac=fac+"E-statement";
+
+        }
+        try{
+            if (e.getSource()==s){
+                if (atype.equals("")){
+                    JOptionPane.showMessageDialog(null,"fill all the fileds");
+                }else {
+                    con c1=new con();
+                    String q1="insert into bankSystem.signpthree values('"+formno+"','"+atype+"','"+cardno+"','"+pin+"','"+fac+"')";
+                    String q2="insert into bankSystem.login values('"+formno+"','"+cardno+"','"+pin+"')";
+                    c1.statement.executeUpdate(q1);
+                    c1.statement.executeUpdate(q2);
+                    JOptionPane.showMessageDialog(null,"card no :"+cardno+"\n Pin:"+pin);
+                    new Deposit(pin);
+                    setVisible(false);
+                }
+            } else if (e.getSource()==c) {
+                System.exit(0);
+                
+            }
+
+        }catch (Exception E){
+            E.printStackTrace();
+        }
+
+
     }
 
     public static void main(String[]args){
-        new signup3();
+        new signup3("");
 
     }
 }

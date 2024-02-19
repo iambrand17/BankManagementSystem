@@ -16,6 +16,7 @@ public class con {
         try{
             String url = "jdbc:mysql://localhost:3306/bankSystem?user=root&password=Mujawar@786";
             connection = DriverManager.getConnection(url);
+
              statement =connection.createStatement();
 
 
